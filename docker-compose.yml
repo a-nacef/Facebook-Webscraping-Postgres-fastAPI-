@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+    postgres:
+        image: postgres:latest
+        restart: always
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+        ports:
+          - '5432:5433'
+        volumes:
+          - ./db/postgres-data:/var/lib/postgresql/data
+          - ./db/sql_init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
