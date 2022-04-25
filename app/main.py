@@ -27,6 +27,7 @@ async def get_data(num:int):
 @app.get("/rank/{num}&metric={metric}")
 async def get_ranked(num:int,metric:str):
     tup_to_json = lambda tup: {k:v for k,v in zip(s.wanted_keys,tup)}
+    #Handling nonexistent metrics
     if str.lower(metric) not in ["likes", "comments", "shares"]:
         return "Incorrect metric, valid values are: likes, comments and shares"
     try:

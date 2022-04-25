@@ -26,7 +26,10 @@ def load_data(*payload):
             """)
         #Merge/upsert staging data into posts table, on conflict we simply don't insert the duplicated row
         cursor.execute(f"""
-            INSERT INTO posts (SELECT * FROM postsstaging) ON CONFLICT (id) DO NOTHING;
+            INSERT INTO posts (SELECT * FROM postsstaging) ON CONFLICT (id) DO UPDATE SET 
+            likes=EXCLUDED.likes,
+            comments = EXCLUDED.comments,
+            shares = EXCLUDED.shares;
          """)
          #Truncate the staging table for the future inserts
         cursor.execute("""

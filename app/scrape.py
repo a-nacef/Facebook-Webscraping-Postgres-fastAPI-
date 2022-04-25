@@ -12,9 +12,11 @@ class Scraper():
         resp = []
         filter_dict = lambda d,l: {x:d[x] for x in l}
         data = get_posts(self.pagename,pages=num)
+        #The response is a list of dicts, we filter each dict with the lambda and append it to a new list
         for post in data:
             pruned = filter_dict(post, self.wanted_keys)
             resp.append(pruned)
+        #Invoke db insertion thread
         threading.Thread(target=db.load_data, args=resp).start()
         return resp
 
