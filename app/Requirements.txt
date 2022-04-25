@@ -1,0 +1,5 @@
+fastapi
+facebook_scraper
+psycopg2-binary
+pytest
+uvicorn

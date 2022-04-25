@@ -1,0 +1,4 @@
+[
+  "test.py::test_livecheck",
+  "test.py::test_nonexistent_endpoint"
+]

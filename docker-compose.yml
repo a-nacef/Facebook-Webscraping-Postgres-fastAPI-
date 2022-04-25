@@ -6,8 +6,29 @@ services:
         environment:
           - POSTGRES_USER=postgres
           - POSTGRES_PASSWORD=postgres
+          - POSTGRES_DB=facebook  
         ports:
-          - '5432:5433'
+          - '5433:5432'
         volumes:
           - ./db/postgres-data:/var/lib/postgresql/data
           - ./db/sql_init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    scraping-api:
+        image: webscraper:latest
+        build:
+          context: ./app/
+          dockerfile: Dockerfile
+        restart: always
+        ports:
+         - "8080:80"
+        depends_on: 
+          - postgres
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+          - db=facebook
+        healthcheck:
+          test: curl --fail http://0.0.0.0/ || exit 1
+          interval: 60s
+          retries: 5
+          start_period: 50s
+          timeout: 10s
